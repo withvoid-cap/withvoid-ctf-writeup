@@ -1,12 +1,18 @@
-#Geek Challenge 2023 部分题目writeup{ignore=true}
+# Geek Challenge 2023 部分题目writeup{ignore=true}
+
 [toc]
+
 # Web
+
 ## EzHttp
+
 纯套娃。
 打开网址，提示post传参
 ![Alt text](image.png)
+
 右键查看源代码发现注释
 ![Alt text](image-1.png)
+
 打开`robots.txt`文件
 ![Alt text](image-2.png)
 说`/o2takuXX's_username_and_password.txt`这个文件不让爬，打开看一下，得到账号密码
