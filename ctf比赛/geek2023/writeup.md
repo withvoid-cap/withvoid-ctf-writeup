@@ -1,6 +1,30 @@
 # Geek Challenge 2023 部分题目writeup{ignore=true}
 
-[toc]
+- [Web](#web)
+  - [EzHttp](#ezhttp)
+  - [easy\_php](#easy_php)
+  - [n00b\_Upload](#n00b_upload)
+  - [unsign](#unsign)
+  - [Pupyy\_rce](#pupyy_rce)
+  - [ez\_remove](#ez_remove)
+- [re](#re)
+  - [幸运数字](#幸运数字)
+- [crypto](#crypto)
+  - [SignIn](#signin)
+  - [proof\_of\_work](#proof_of_work)
+  - [easy\_classic](#easy_classic)
+  - [OTPTwice](#otptwice)
+  - [OldAlgorithm](#oldalgorithm)
+  - [SimpleRSA](#simplersa)
+  - [Fi1nd\_th3\_x'](#fi1nd_th3_x)
+  - [PolyRSA](#polyrsa)
+- [misc](#misc)
+  - [cheekin](#cheekin)
+  - [Qingwan心都要碎了](#qingwan心都要碎了)
+  - [下一站是哪儿呢](#下一站是哪儿呢)
+  - [DEATH\_N0TE](#death_n0te)
+  - [xqr](#xqr)
+
 
 # Web
 
@@ -8,37 +32,61 @@
 
 纯套娃。
 打开网址，提示post传参
+
 ![Alt text](image.png)
 
 右键查看源代码发现注释
+
 ![Alt text](image-1.png)
 
 打开`robots.txt`文件
+
 ![Alt text](image-2.png)
+
 说`/o2takuXX's_username_and_password.txt`这个文件不让爬，打开看一下，得到账号密码
+
 ![Alt text](image-3.png)
+
 传入参数`username=admin&password=@dm1N123456r00t#`
+
 ![Alt text](image-4.png)
+
 设置referer字段为`syssec.com`
+
 ![Alt text](image-5.png)
+
 修改UA头部的内容为`Syclover`
+
 ![Alt text](image-6.png)
+
 提示要从本地访问，修改rff字段为`127.0.0.1`
+
 ![Alt text](image-7.png)
+
 需要设置代理，修改Via字段为`Syc.vip`
+
 ![Alt text](image-8.png)
+
 最后一步了，从php代码看需要从http头部获取`O2TAKUXX`字段的值并比较，直接添加这个字段并且值设置为
+
 ![Alt text](image-9.png)
+
 获得flag：`SYC{HttP_1s_E@sY}`
+
 
 ps. 做到浏览器那一步想起来以前做过，查了一下是19年极客大挑战，什么祖传题目。
 ps2. 你这个三叶草浏览器能有黑曜石浏览器一半功能吗。
 
 ## easy_php
+
 非常好套娃，使我的大脑旋转
+
 ![Alt text](image-10.png)
+
 代码非常清晰明了，套娃绕过，全部通过即可，首先看第一部分
+
 `isset($_GET['syc'])&&preg_match('/^Welcome to GEEK 2023!$/i', $_GET['syc']) && $_GET['syc'] !== 'Welcome to GEEK 2023!'`
+
 要求从GET请求中获得syc的值，并且过一个正则比较和一个非严格不等，正则比较和不等比较的字符串部分是一样的，但是正则表达式部分大小写不敏感，所以设置payload为`?syc=welcome to GEEK 2023!`完成第一部分绕过。<br>
 然后看第二部分
 `intval($_GET['lover']) < 2023 && intval($_GET['lover'] + 1) > 2024`
