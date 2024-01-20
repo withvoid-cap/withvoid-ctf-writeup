@@ -89,9 +89,12 @@ ps2. 你这个三叶草浏览器能有黑曜石浏览器一半功能吗。
 
 要求从GET请求中获得syc的值，并且过一个正则比较和一个非严格不等，正则比较和不等比较的字符串部分是一样的，但是正则表达式部分大小写不敏感，所以设置payload为`?syc=welcome to GEEK 2023!`完成第一部分绕过。<br>
 然后看第二部分
+
 `intval($_GET['lover']) < 2023 && intval($_GET['lover'] + 1) > 2024`
+
 要求从GET请求中获取lover的值，并且过一下`intval()`函数，进行比较，这个函数绕过的方法很多，在这里选择传入一个有一定长度的十六进制数，在`intval($_GET['lover'])`这里会返回0，在`intval($_GET['lover'] + 1)`这里会返回转十进制加一后的结果，符合要求，传入payload为`?syc=welcome to GEEK 2023!&lover=0x1234`。<br>
 接着看第三部分和第四部分
+
 第三部分的判断代码是`isset($_POST['qw']) && $_POST['yxx']`，只要使用psot传入这俩参数就行。第四部分是`sha1($array1) === sha1($array2)`，两个变量是第三部分传入的参数经过了类型转换的值，第一眼以为是要做sha1碰撞，但是看了一下没要求两个参数不一致，那么随便传俩一样的字符串就行，post的body为`qw=ab&yxx=ab`。<br>
 看最后一部分判断代码
 `isset($_POST['SYC_GEEK.2023'])&&($_POST['SYC_GEEK.2023']="Happy to see you!")`
