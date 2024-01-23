@@ -1512,7 +1512,8 @@ print(nthroot_mod(c, 256, p, True))
 然后看task
 
 task给了c1，c2，n，p和q就作为e直接使用了，很容易想到费马小定理，然后推导如下
->  $ c1=m^p \mod n $ 
+>  $`c1=m^p \mod n`$
+>  
 >  $ c2=m^q \mod n $ 
 > 由费马小定理有 $ c1=m \mod p $ 和 $ c2=m \mod q $ ，继续推导有
 >  $ c1=m+k1*p $ 
