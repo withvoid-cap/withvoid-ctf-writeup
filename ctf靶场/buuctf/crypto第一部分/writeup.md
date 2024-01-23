@@ -1511,13 +1511,13 @@ print(nthroot_mod(c, 256, p, True))
 然后看task
 
 task给了c1，c2，n，p和q就作为e直接使用了，很容易想到费马小定理，然后推导如下
-> $c1=m^p \mod n$
-> $c2=m^q \mod n$
-> 由费马小定理有$c1=m \mod p$和$c2=m \mod q$，继续推导有
-> $c1=m+k1*p$
-> $c2=m+k2*q$
-> $c1*c2=m^2+k1*k2*n+m(k1*p+k2*q)$
-> $c1+c2=2m+k1*p+k2*q$
+> $c1=m^p \mod n$ 
+> $c2=m^q \mod n$ 
+> 由费马小定理有 $c1=m \mod p$和$c2=m \mod q$ ，继续推导有
+>  $c1=m+k1*p$ 
+>  $c2=m+k2*q$ 
+>  $c1*c2=m^2+k1*k2*n+m(k1*p+k2*q)$ 
+>  $c1+c2=2m+k1*p+k2*q$ 
 > 联立上述式子有：$m^2-(c1+c2)m+c1*c2 \mod n$
 
 然后就是求解环上多项式，由hint知m很小，抄了别人的sage脚本如下：
