@@ -1,4 +1,3 @@
-
 # buuctf 密码第一部分
 - [buuctf 密码第一部分](#buuctf-密码第一部分)
   - [\[RoarCTF2019\]babyRSA](#roarctf2019babyrsa)
@@ -1457,8 +1456,8 @@ print(c2)
 '''
 ```
 
-先看hint，可以用共模攻击拿到c，然后就有式子 $m^{256}=c \mod p$ ，这里e=256，不仅和phi不互素并且除了最大公约数8后还是不互素，所以不能用上面e和phi不互素的方法来做。可以观察到256是 $2^8$ ，可以通过循环求解二次剩余得到结果。
-这里可以发现 $ p \mod 8 =5 $ 属于特殊情况，可以使用Atkin算法，代码如下
+先看hint，可以用共模攻击拿到c，然后就有式子$m^{256}=c \mod p$，这里e=256，不仅和phi不互素并且除了最大公约数8后还是不互素，所以不能用上面e和phi不互素的方法来做。可以观察到256是$2^8$，可以通过循环求解二次剩余得到结果。
+这里可以发现$p \mod 8 =5$属于特殊情况，可以使用Atkin算法，代码如下
 ```python
 import base64
 import gmpy2
@@ -1512,15 +1511,14 @@ print(nthroot_mod(c, 256, p, True))
 然后看task
 
 task给了c1，c2，n，p和q就作为e直接使用了，很容易想到费马小定理，然后推导如下
->  $`c1=m^p \mod n`$
->  
->  $ c2=m^q \mod n $ 
-> 由费马小定理有 $ c1=m \mod p $ 和 $ c2=m \mod q $ ，继续推导有
->  $ c1=m+k1*p $ 
->  $ c2=m+k2*q $ 
->  $ c1*c2=m^2+k1*k2*n+m(k1*p+k2*q) $ 
->  $ c1+c2=2m+k1*p+k2*q $ 
-> 联立上述式子有： $ m^2-(c1+c2)m+c1*c2 \mod n $ 
+> $c1=m^p \mod n$
+> $c2=m^q \mod n$
+> 由费马小定理有$c1=m \mod p$和$c2=m \mod q$，继续推导有
+> $c1=m+k1*p$
+> $c2=m+k2*q$
+> $c1*c2=m^2+k1*k2*n+m(k1*p+k2*q)$
+> $c1+c2=2m+k1*p+k2*q$
+> 联立上述式子有：$m^2-(c1+c2)m+c1*c2 \mod n$
 
 然后就是求解环上多项式，由hint知m很小，抄了别人的sage脚本如下：
 ```python
@@ -1535,4 +1533,3 @@ x0 = f.small_roots(X=2^400)
 print(x0)
 ```
 得到flag:`verrrrrrry_345yyyyyyy_rsaaaaaaa_righttttttt?`
-
